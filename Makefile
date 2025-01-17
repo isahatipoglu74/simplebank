@@ -26,5 +26,11 @@ test:
 	go test -v -cover ./...
 #Go projenizdeki tüm test dosyalarını çalıştırarak test sonuçlarını ve kod kapsamını gösterir.
 
-.PHONY:postgres createdb dropdb migrateup migratedown sqlc
+server:
+	go run main.go
+
+mock:
+	mockgen -package mockdb -destination db/mock/store.go simplebank/db/sqlc Store
+
+.PHONY:postgres createdb dropdb migrateup migratedown sqlc test server mock
 # Makefile içindeki belirli hedeflerin sanal hedefler olduğunu belirtir. Bu, bu hedeflerin bir dosya ile çakışmasını önler ve her zaman çalıştırılmasını sağlar.

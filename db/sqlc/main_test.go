@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"simplebank/util"
 	"testing"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -19,12 +20,17 @@ var testDB *pgxpool.Pool
 
 func TestMain(m *testing.M) {
 	var err error
-	config, err := pgxpool.ParseConfig(dbSource)
+	config, err := util.LoadConfig("../..")
+	if err != nil {
+		log.Fatal("cannot load config", err)
+	}
+
+	configs, err := pgxpool.ParseConfig(config.DBSource)
 	if err != nil {
 		log.Fatal("cannot parse config:", err)
 	}
 
-	testDB, err = pgxpool.NewWithConfig(context.Background(), config)
+	testDB, err = pgxpool.NewWithConfig(context.Background(), configs)
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
