@@ -14,9 +14,18 @@ migrateup:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
 # migrate aracını kullanarak yukarı migrasyonları (up migrations) uygular.
 
+migrateup1:
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
+# migrate aracını kullanarak mevcuttakinden 1 üstteki versiyona geçiş yapar
+
 migratedown:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
 # migrate aracını kullanarak aşağı migrasyonları (down migrations) uygular.
+
+migratedown1:
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
+# migrate aracını kullanarak mevcuttakinden 1 alltaki versiyona geçiş yapar
+
 
 sqlc:	
 	sqlc generate
@@ -32,5 +41,5 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go simplebank/db/sqlc Store
 
-.PHONY:postgres createdb dropdb migrateup migratedown sqlc test server mock
+.PHONY:postgres createdb dropdb migrateup migratedown  migrateup1 migratedown1  sqlc test server mock
 # Makefile içindeki belirli hedeflerin sanal hedefler olduğunu belirtir. Bu, bu hedeflerin bir dosya ile çakışmasını önler ve her zaman çalıştırılmasını sağlar.
