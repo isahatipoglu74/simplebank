@@ -9,7 +9,13 @@ sql:
         out: "./db/sqlc/" # oluşturulan Go kodlarının nereye kaydedileceğini belirtir.
         sql_package: "pgx/v5" # SQL bağlantı paketi olarak kullanılacak kütüphaneyi belirtir.
         emit_json_tags: true # JSON etiketlerinin otomatik olarak eklenmesini sağlar.
-        emit_prepared_queries: false # hazırlıklı (prepared) sorguların oluşturulup oluşturulmayacağını belirtir.
+        #emit_prepared_queries: false # hazırlıklı (prepared) sorguların oluşturulup oluşturulmayacağını belirtir.
         emit_interface: true  # sorgular için arayüzlerin (interface) oluşturulup oluşturulmayacağını belirtir.
-        emit_exact_table_names: false # tablo adlarının tam olarak kullanılıp kullanılmayacağını belirtir.
+        #emit_exact_table_names: false # tablo adlarının tam olarak kullanılıp kullanılmayacağını belirtir.
         emit_empty_slices: true #sorgu sonucu null ise boş bir slice geri döndürecek
+        overrides:
+        - db_type: "timestamtz"
+          go_type: "time.Time"
+        - db_type: "uuid"
+          go_type: ".UUID"  
+        

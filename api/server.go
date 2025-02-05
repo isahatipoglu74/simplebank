@@ -50,12 +50,18 @@ func (server *Server) setupRouter() {
 	authRoutes.GET("/accounts", server.listAccount)
 	authRoutes.POST("/transfers", server.createTransfer)
 
-	server.router = router
+	// Healthcheck endpoint
+	router.GET("/healthcheck", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status": "UP",
+		})
+	})
 
+	server.router = router
 }
 
 func (server *Server) Start(address string) error {
-	return server.router.Run(address)
+	return server.router.Run("0.0.0.0:8080")
 }
 
 func errorResponse(err error) gin.H {
